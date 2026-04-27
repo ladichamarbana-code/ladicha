@@ -1,1 +1,912 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<title>La Dicha Marbana — Pequeña quesería artesanal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{overflow-x:hidden;width:100%;}
+:root{
+  --r:#c41f05;--rd:#8b1503;--rl:#e8705f;--rbg:#fdf1ef;
+  --ink:#1a1208;--ink2:#4a3520;--ink3:#8a7055;
+  --p:#faf6ee;--p2:#f2ead8;--p3:#e8ddc8;
+}
+body{font-family:"Nunito",sans-serif;background:var(--p);color:var(--ink);}
+h1,h2,h3,.serif{font-family:"Cormorant Garamond",serif;}
+.wrap{width:100%;max-width:100%;margin:0 auto;overflow-x:hidden;}
+section{display:none;}
+section.on{display:block;}
 
+/* NAV */
+nav{position:sticky;top:0;z-index:99;background:rgba(250,246,238,0.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--p3);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between;width:100%;cursor:pointer;}
+.nav-left{display:flex;align-items:center;gap:10px;min-width:0;flex:1;}
+.nav-logo-img{height:40px;width:40px;object-fit:contain;flex-shrink:0;border-radius:50%;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:15px;font-style:italic;color:var(--rd);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nav-brand small{display:block;font-size:8px;font-style:normal;font-family:"Nunito",sans-serif;color:var(--ink3);letter-spacing:0.07em;font-weight:700;text-transform:uppercase;}
+.hamburger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:4px;padding:6px;flex-shrink:0;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--ink2);border-radius:2px;transition:all 0.2s;}
+.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.nav-drawer{display:none;position:fixed;top:56px;left:0;right:0;z-index:98;background:rgba(250,246,238,0.98);backdrop-filter:blur(10px);border-bottom:1px solid var(--p3);padding:8px 0 12px;}
+.nav-drawer.open{display:block;}
+.nd-btn{display:block;width:100%;text-align:left;padding:12px 20px;background:none;border:none;cursor:pointer;font-family:"Nunito",sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink2);transition:all 0.15s;}
+.nd-btn:hover,.nd-btn.on{color:var(--r);background:var(--rbg);}
+
+/* BUTTONS */
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:var(--r);color:#fff;border:none;cursor:pointer;border-radius:10px;font-family:"Nunito",sans-serif;font-size:14px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;transition:background 0.2s;-webkit-tap-highlight-color:transparent;}
+.wa-btn:hover{background:var(--rd);}
+.wa-btn svg{width:18px;height:18px;fill:#fff;flex-shrink:0;}
+.ghost-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:transparent;color:var(--ink2);border:1.5px solid var(--p3);cursor:pointer;border-radius:10px;font-family:"Nunito",sans-serif;font-size:14px;font-weight:500;margin-top:10px;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
+.ghost-btn:hover{border-color:var(--r);color:var(--r);}
+
+/* HOME HERO */
+.hero-img-c{width:100%;height:280px;overflow:hidden;position:relative;border-radius:0 0 16px 16px;}
+.hero-img-c img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
+.hero-img-c::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,18,8,0.25) 0%,rgba(26,18,8,0.82) 100%);border-radius:0 0 16px 16px;}
+.hero-over{position:absolute;bottom:0;left:0;right:0;padding:20px 20px 26px;z-index:2;}
+.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:6px;}
+.hero-h1{font-family:"Cormorant Garamond",serif;font-size:42px;line-height:1.1;font-weight:400;color:#fff;}
+.hero-h1 em{font-style:italic;color:#c41f05;}
+.hero-logo-stamp{position:absolute;top:14px;right:14px;z-index:3;width:68px;height:68px;background:rgba(255,255,255,0.93);border-radius:50%;padding:4px;box-shadow:0 2px 12px rgba(0,0,0,0.18);cursor:pointer;}
+.hero-logo-stamp img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
+.hero-body{padding:24px 20px 0;}
+.hero-desc{font-size:15px;line-height:1.85;color:var(--ink2);border-left:2.5px solid var(--r);padding-left:15px;margin-bottom:22px;}
+.pills{display:flex;flex-wrap:wrap;gap:7px;margin:20px 0 4px;}
+.pill{display:flex;align-items:center;gap:6px;padding:6px 10px;background:var(--p2);border-radius:20px;font-size:12px;color:var(--ink2);border:1px solid var(--p3);font-weight:500;}
+.pill-dot{width:5px;height:5px;border-radius:50%;background:var(--r);flex-shrink:0;}
+
+/* STATS – clickable */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--p3);margin-top:14px;}
+.stat{padding:16px 0;text-align:center;border-right:1px solid var(--p3);transition:background 0.15s;}
+.stat:last-child{border-right:none;}
+.stat.clickable{cursor:pointer;}
+.stat.clickable:hover{background:var(--rbg);}
+.stat-num{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:400;color:var(--r);line-height:1;margin-bottom:3px;}
+.stat-label{font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3);font-weight:700;}
+
+/* AWARD BADGE */
+.award-badge{margin:20px 20px 0;padding:14px 16px;background:linear-gradient(135deg,#fdf1ef,#f2ead8);border:1px solid rgba(196,31,5,0.2);border-radius:10px;display:flex;align-items:center;gap:12px;}
+.award-icon{font-size:28px;flex-shrink:0;}
+.award-text h4{font-size:13px;font-weight:700;color:var(--rd);margin-bottom:2px;}
+.award-text p{font-size:12px;color:var(--ink2);line-height:1.5;}
+
+/* REVIEWS CAROUSEL */
+.reviews-section{padding:28px 0 32px;}
+.reviews-header{padding:0 20px 16px;display:flex;align-items:baseline;justify-content:space-between;}
+.reviews-header h3{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:400;color:var(--ink);}
+.reviews-header a{font-size:11px;color:var(--r);font-weight:700;letter-spacing:0.05em;text-decoration:none;text-transform:uppercase;}
+.reviews-track-wrap{overflow-x:auto;padding:0 20px 12px;scrollbar-width:none;-ms-overflow-style:none;}
+.reviews-track-wrap::-webkit-scrollbar{display:none;}
+.reviews-track{display:flex;gap:12px;width:max-content;}
+.rev-card{width:260px;flex-shrink:0;background:#fff;border:1px solid var(--p3);border-radius:12px;padding:16px;}
+.rev-stars{margin-bottom:8px;}
+.rev-text{font-size:13px;color:var(--ink2);line-height:1.65;margin-bottom:10px;font-style:italic;}
+.rev-name{font-size:11px;font-weight:700;color:var(--ink3);letter-spacing:0.06em;text-transform:uppercase;}
+
+/* CART BUTTON */
+.cart-btn{position:fixed;bottom:20px;right:20px;z-index:97;width:52px;height:52px;background:var(--r);border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(196,31,5,0.4);transition:transform 0.2s;}
+.cart-btn:hover{transform:scale(1.08);}
+.cart-btn svg{width:22px;height:22px;fill:#fff;}
+.cart-count{position:absolute;top:-4px;right:-4px;width:18px;height:18px;background:#fff;border-radius:50%;border:2px solid var(--r);font-size:10px;font-weight:700;color:var(--r);display:flex;align-items:center;justify-content:center;display:none;}
+.cart-count.show{display:flex;}
+
+/* CART DRAWER */
+.cart-drawer{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);z-index:200;width:100%;max-width:520px;background:var(--p);border-radius:16px 16px 0 0;box-shadow:0 -4px 30px rgba(0,0,0,0.15);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);padding:0 0 32px;max-height:80vh;overflow-y:auto;}
+.cart-drawer.open{transform:translateX(-50%) translateY(0);}
+.cart-handle{width:36px;height:4px;background:var(--p3);border-radius:4px;margin:12px auto 16px;}
+.cart-header{display:flex;align-items:center;justify-content:space-between;padding:0 20px 14px;border-bottom:1px solid var(--p3);}
+.cart-header h3{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:400;}
+.cart-close{background:none;border:none;cursor:pointer;font-size:22px;color:var(--ink3);padding:4px;}
+.cart-empty{text-align:center;padding:32px 20px;color:var(--ink3);font-size:14px;}
+.cart-items{padding:12px 20px;}
+.cart-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--p3);}
+.cart-item-img{width:48px;height:48px;border-radius:8px;object-fit:cover;flex-shrink:0;}
+.cart-item-name{flex:1;font-size:14px;font-weight:600;color:var(--ink);}
+.cart-item-price{font-family:"Cormorant Garamond",serif;font-size:16px;color:var(--r);}
+.cart-item-remove{background:none;border:none;cursor:pointer;font-size:18px;color:var(--ink3);padding:4px;}
+.cart-footer{padding:16px 20px 0;}
+.cart-total{display:flex;justify-content:space-between;margin-bottom:14px;font-weight:700;font-size:15px;}
+.cart-total-price{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--r);}
+.cart-wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:var(--r);color:#fff;border:none;cursor:pointer;border-radius:10px;font-family:"Nunito",sans-serif;font-size:14px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;}
+.cart-wa-btn svg{width:18px;height:18px;fill:#fff;}
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:199;display:none;}
+.cart-overlay.show{display:block;}
+
+/* ADD TO CART BTN in ficha */
+.add-cart-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:var(--p2);color:var(--ink);border:1.5px solid var(--p3);cursor:pointer;border-radius:10px;font-family:"Nunito",sans-serif;font-size:14px;font-weight:700;letter-spacing:0.04em;margin-bottom:10px;transition:all 0.2s;}
+.add-cart-btn:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+/* FLAVOR SELECTOR */
+.flavor-wrap{margin-bottom:16px;}
+.flavor-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;display:block;}
+.flavor-opts{display:flex;flex-wrap:wrap;gap:6px;}
+.flavor-opt{padding:6px 12px;background:var(--p2);border:1.5px solid var(--p3);border-radius:20px;font-size:12px;color:var(--ink2);cursor:pointer;font-weight:500;transition:all 0.15s;}
+.flavor-opt.sel,.flavor-opt:hover{background:var(--r);color:#fff;border-color:var(--r);}
+
+/* HISTORIA */
+.hist-img-c{width:100%;height:240px;overflow:hidden;position:relative;border-radius:0 0 16px 16px;}
+.hist-img-c img{width:100%;height:100%;object-fit:cover;object-position:center 35%;display:block;}
+.hist-img-c::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,18,8,0.1),rgba(26,18,8,0.62));border-radius:0 0 16px 16px;}
+.hist-over{position:absolute;bottom:20px;left:20px;right:20px;z-index:2;}
+.hist-over h2{font-family:"Cormorant Garamond",serif;font-size:38px;font-weight:400;font-style:italic;color:#fff;margin-bottom:3px;}
+.hist-over p{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.6);font-weight:700;}
+.hist-content{padding:28px 20px 36px;}
+.hist-p{font-size:15px;line-height:1.85;color:var(--ink2);margin-bottom:16px;}
+.quote-block{margin:24px 0;padding:18px 0 18px 18px;border-left:3px solid var(--r);}
+.quote-block blockquote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:22px;line-height:1.5;color:var(--ink);margin-bottom:8px;}
+.quote-block cite{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);font-weight:700;}
+.valores{display:flex;flex-direction:column;margin-top:24px;}
+.valor{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--p3);}
+.valor:last-child{border-bottom:none;}
+.valor-n{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:400;color:var(--p3);line-height:1;flex-shrink:0;width:28px;}
+.valor-t h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.valor-t p{font-size:13px;color:var(--ink2);line-height:1.65;}
+
+/* SHARED */
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--r);margin-bottom:8px;}
+.big-h{font-family:"Cormorant Garamond",serif;font-size:38px;font-weight:400;color:var(--ink);margin-bottom:7px;}
+.sub-p{font-size:13px;color:var(--ink3);line-height:1.65;margin-bottom:20px;}
+
+/* PRODUCTOS */
+.prod-hdr{padding:28px 20px 0;}
+.filter-row{display:flex;gap:5px;flex-wrap:wrap;padding:0 20px 16px;}
+.pf{padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;background:var(--p2);border:1px solid var(--p3);color:var(--ink2);cursor:pointer;transition:all 0.15s;}
+.pf.on,.pf:hover{background:var(--r);color:#fff;border-color:var(--r);}
+.prod-list{padding:0 14px;}
+.pc{background:#fff;border:1px solid var(--p3);border-radius:10px;margin-bottom:10px;overflow:hidden;display:flex;}
+.pc-img{width:92px;height:92px;flex-shrink:0;overflow:hidden;border-radius:6px;}
+.pc-img img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block;}
+.pc-body{padding:12px 13px;flex:1;min-width:0;}
+.pc-cat{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--r);margin-bottom:3px;}
+.pc-name{font-family:"Cormorant Garamond",serif;font-size:19px;font-weight:400;color:var(--ink);margin-bottom:3px;line-height:1.15;}
+.pc-desc{font-size:11px;color:var(--ink3);line-height:1.5;margin-bottom:7px;}
+.pc-foot{display:flex;align-items:center;justify-content:space-between;}
+.pc-price{font-family:"Cormorant Garamond",serif;font-size:17px;color:var(--r);}
+.pc-more{font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink2);background:var(--p2);border:1px solid var(--p3);border-radius:8px;padding:4px 9px;cursor:pointer;transition:all 0.15s;}
+.pc-more:hover{background:var(--r);color:#fff;border-color:var(--r);}
+.pack-sec{padding:4px 14px;}
+.pack-img-hero{width:100%;height:220px;border-radius:10px;overflow:hidden;margin-bottom:14px;background:var(--p2);display:flex;align-items:center;justify-content:center;}
+.pack-img-hero img{width:100%;height:100%;object-fit:cover;display:block;}
+.pack-lbl{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px;}
+.pack-c{border:1px solid var(--p3);background:var(--p2);border-radius:10px;padding:14px 16px;margin-bottom:9px;cursor:pointer;transition:border-color 0.15s;}
+.pack-c:hover{border-color:var(--r);}
+.pack-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+.pack-name{font-family:"Cormorant Garamond",serif;font-size:19px;font-weight:400;color:var(--ink);}
+.pack-price{font-family:"Cormorant Garamond",serif;font-size:22px;color:var(--r);}
+.pack-items{font-size:12px;color:var(--ink2);line-height:1.8;}
+.pack-ver{font-size:10px;font-weight:700;color:var(--r);text-transform:uppercase;letter-spacing:0.06em;margin-top:8px;display:block;}
+.prod-cta{padding:16px 14px 32px;text-align:center;}
+.prod-note{font-size:12px;color:var(--ink3);line-height:1.7;padding:12px 14px;background:var(--p2);border-radius:10px;border:1px solid var(--p3);margin-bottom:12px;text-align:left;}
+
+/* FICHA */
+.ficha-hero-c{position:relative;}
+.ficha-hero-c img{width:100%;height:250px;object-fit:cover;object-position:center 20%;display:block;border-radius:0 0 16px 16px;}
+.ficha-hero-c::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 45%,rgba(26,18,8,0.65) 100%);border-radius:0 0 16px 16px;}
+.ficha-back-btn{position:absolute;top:12px;left:12px;z-index:3;background:rgba(255,255,255,0.18);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.35);color:#fff;font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:7px 12px;border-radius:8px;cursor:pointer;}
+.ficha-over{position:absolute;bottom:16px;left:20px;right:20px;z-index:2;}
+.ficha-cat-lbl{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:4px;font-weight:700;}
+.ficha-title{font-family:"Cormorant Garamond",serif;font-size:32px;font-weight:400;color:#fff;line-height:1.1;}
+.ficha-body{padding:22px 20px;}
+.ficha-price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:16px;}
+.ficha-price{font-family:"Cormorant Garamond",serif;font-size:36px;font-weight:400;color:var(--r);}
+.ficha-fmt{font-size:13px;color:var(--ink3);}
+.ficha-desc{font-size:14px;line-height:1.85;color:var(--ink2);margin-bottom:20px;}
+.ficha-contenido{background:var(--p2);border:1px solid var(--p3);border-radius:10px;padding:14px;margin-bottom:16px;}
+.ficha-contenido h4{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;}
+.ficha-contenido p{font-size:13px;color:var(--ink2);line-height:1.8;}
+.ficha-tbl{width:100%;margin-bottom:20px;}
+.ficha-tbl tr{border-bottom:1px solid var(--p3);}
+.ficha-tbl tr:last-child{border-bottom:none;}
+.ficha-tbl td{padding:9px 0;font-size:13px;}
+.ficha-tbl td:first-child{color:var(--ink3);width:42%;font-weight:500;}
+.ficha-tbl td:last-child{color:var(--ink);font-weight:700;}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.chip{padding:5px 10px;background:var(--p2);border:1px solid var(--p3);border-radius:20px;font-size:12px;color:var(--ink2);font-weight:500;}
+.conserva{background:var(--rbg);border:1px solid rgba(196,31,5,0.15);border-radius:10px;padding:14px;margin-bottom:16px;}
+.conserva h4{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--r);margin-bottom:10px;}
+.conserva li{font-size:13px;color:var(--ink2);line-height:1.9;list-style:none;padding-left:14px;position:relative;}
+.conserva li::before{content:"—";position:absolute;left:0;color:var(--rl);}
+
+/* PEDIR */
+.pedir-pad{padding:32px 20px;}
+.sistema-reserva{margin-top:24px;padding:18px;background:var(--p2);border:1px solid var(--p3);border-radius:12px;}
+.sistema-reserva h4{font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:400;color:var(--ink);margin-bottom:6px;}
+.sistema-reserva p{font-size:13px;color:var(--ink2);line-height:1.65;margin-bottom:14px;}
+.reserva-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:var(--ink);color:#fff;border:none;cursor:pointer;border-radius:10px;font-family:"Nunito",sans-serif;font-size:13px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;}
+.steps{display:flex;flex-direction:column;}
+.step{display:flex;gap:16px;padding-bottom:28px;position:relative;}
+.step:not(:last-child)::after{content:"";position:absolute;left:17px;top:38px;bottom:0;width:1px;background:var(--p3);}
+.step-c{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--r);display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:16px;color:var(--r);flex-shrink:0;background:var(--p);}
+.step-t h3{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+.step-t p{font-size:13px;color:var(--ink2);line-height:1.65;}
+.faq-sec{margin-top:12px;}
+.faq-lbl{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px;}
+.fi{border-bottom:1px solid var(--p3);}
+.fq{width:100%;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:12px 0;text-align:left;font-family:"Nunito",sans-serif;font-size:13px;color:var(--ink);font-weight:500;gap:8px;}
+.fq-arr{width:20px;height:20px;flex-shrink:0;border:1px solid var(--p3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--r);}
+.fa{max-height:0;overflow:hidden;transition:max-height 0.3s ease;}
+.fa.open{max-height:400px;}
+.fa p{font-size:13px;color:var(--ink2);line-height:1.75;padding-bottom:12px;}
+
+/* CUIDADOS */
+.cuid-hdr{padding:32px 20px 20px;}
+.cuid-grid{padding:0 14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:8px;}
+.cc{background:#fff;border:1px solid var(--p3);border-radius:10px;padding:14px 12px;}
+.cc-icon{width:28px;height:28px;border-radius:50%;background:var(--rbg);display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+.cc-icon svg{width:14px;height:14px;fill:var(--r);}
+.cc-title{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.cc-text{font-size:11px;color:var(--ink3);line-height:1.6;}
+.envase-blk{margin:8px 14px;padding:18px;background:var(--p2);border:1px solid var(--p3);border-radius:10px;}
+.envase-blk h3{font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:400;color:var(--ink);margin-bottom:11px;}
+.envase-blk li{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--p3);font-size:13px;color:var(--ink2);line-height:1.6;list-style:none;align-items:flex-start;}
+.envase-blk li:last-child{border-bottom:none;}
+.ea{color:var(--r);flex-shrink:0;font-weight:700;}
+.cuid-foot{padding:16px 20px 32px;text-align:center;}
+
+/* CONTACTO */
+#contacto{background:var(--ink);}
+.cta-dark{padding:48px 24px 42px;text-align:center;}
+.cta-eyebrow{font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--rl);margin-bottom:12px;}
+.cta-h2{font-family:"Cormorant Garamond",serif;font-size:40px;font-weight:400;color:var(--p);line-height:1.15;font-style:italic;margin-bottom:12px;}
+.cta-sub{font-size:14px;color:rgba(255,255,255,0.5);line-height:1.8;margin-bottom:26px;}
+.cta-logo-c{width:76px;height:76px;margin:0 auto 18px;background:rgba(255,255,255,0.92);border-radius:50%;padding:4px;}
+.cta-logo-c img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
+.cta-reassure{font-size:12px;color:rgba(255,255,255,0.28);margin-top:10px;}
+.cta-div{height:1px;background:rgba(255,255,255,0.07);margin:0 24px;}
+.cta-links{padding:24px;display:flex;flex-direction:column;gap:8px;}
+.cl{display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;text-decoration:none;transition:background 0.15s;}
+.cl:hover{background:rgba(255,255,255,0.08);}
+.cl-ico{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.cl-lbl{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:1px;font-weight:700;font-family:"Nunito",sans-serif;}
+.cl-val{font-size:14px;color:var(--p);font-weight:400;}
+.cta-foot{padding:20px 24px;text-align:center;border-top:1px solid rgba(255,255,255,0.06);}
+.cta-foot-brand{font-family:"Cormorant Garamond",serif;font-size:18px;font-style:italic;color:var(--p);margin-bottom:4px;}
+.cta-foot-tag{font-size:11px;color:rgba(255,255,255,0.22);letter-spacing:0.07em;}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — TABLET & DESKTOP
+════════════════════════════════════════ */
+
+/* Tablet: 640px+ */
+@media (min-width: 640px) {
+  .wrap { max-width: 100%; }
+
+  nav {
+    padding: 0 32px;
+    height: 64px;
+  }
+  .nav-logo-img { height: 48px; width: 48px; }
+  .nav-brand { font-size: 18px; }
+  .nav-brand small { font-size: 10px; }
+
+  /* Show full nav links instead of hamburger */
+  .hamburger { display: none !important; }
+  .nav-drawer {
+    display: flex !important;
+    position: static !important;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    flex-direction: row !important;
+    gap: 4px;
+    backdrop-filter: none !important;
+  }
+  .nd-btn {
+    padding: 6px 10px !important;
+    border-radius: 6px !important;
+    font-size: 10px !important;
+    white-space: nowrap;
+  }
+
+  .hero-img-c { height: 380px; }
+  .hero-h1 { font-size: 56px; }
+  .hero-over { padding: 28px 36px 36px; }
+
+  .hero-body { padding: 36px 40px 0; }
+  .hero-desc { font-size: 16px; max-width: 560px; }
+  .hero-ctas-row { display: flex; gap: 14px; }
+  .hero-ctas-row .wa-btn { flex: 1; }
+  .hero-ctas-row .ghost-btn { flex: 1; margin-top: 0; }
+
+  .award-badge { margin: 24px 40px 0; }
+  .reviews-section { padding: 36px 0 40px; }
+  .reviews-header { padding: 0 40px 20px; }
+  .reviews-track-wrap { padding: 0 40px 16px; }
+  .rev-card { width: 300px; }
+
+  .stat-row { margin-top: 20px; }
+  .stat-num { font-size: 34px; }
+  .stat-label { font-size: 11px; }
+
+  .hist-img-c { height: 320px; }
+  .hist-over h2 { font-size: 48px; }
+  .hist-content { padding: 36px 40px 48px; }
+
+  .prod-hdr { padding: 36px 40px 0; }
+  .filter-row { padding: 0 40px 20px; gap: 8px; }
+  .pf { font-size: 12px; padding: 7px 16px; }
+
+  .prod-list { padding: 0 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .pc { flex-direction: column; }
+  .pc-img { width: 100%; height: 180px; border-radius: 6px 6px 0 0; }
+  .pc-body { padding: 14px 16px 16px; }
+  .pc-name { font-size: 21px; }
+  .pc-desc { font-size: 12px; }
+
+  .pack-sec { padding: 4px 28px; }
+  .pack-img-hero { height: 260px; }
+  .pack-c { padding: 18px 20px; }
+  .pack-name { font-size: 22px; }
+  .pack-price { font-size: 26px; }
+  .pack-items { font-size: 13px; }
+
+  .prod-cta { padding: 20px 28px 40px; }
+  .prod-note { font-size: 13px; }
+
+  .ficha-hero-c img { height: 340px; }
+  .ficha-title { font-size: 40px; }
+  .ficha-body { padding: 28px 40px; }
+  .ficha-price { font-size: 44px; }
+  .ficha-desc { font-size: 15px; }
+
+  .pedir-pad { padding: 40px 40px; }
+  .big-h { font-size: 48px; }
+
+  .cuid-hdr { padding: 40px 40px 28px; }
+  .cuid-grid { padding: 0 28px; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .envase-blk { margin: 12px 28px; padding: 24px; }
+
+  .cta-dark { padding: 64px 40px 52px; }
+  .cta-h2 { font-size: 52px; }
+  .cta-links { padding: 28px 40px; }
+
+  .cart-btn { bottom: 28px; right: 28px; width: 58px; height: 58px; }
+}
+
+/* Desktop: 1024px+ */
+@media (min-width: 1024px) {
+  nav { padding: 0 60px; }
+  .nd-btn { font-size: 11px !important; padding: 6px 12px !important; }
+
+  /* Two-column layout for main content */
+  #home .hero-layout { display: flex; align-items: flex-start; gap: 0; }
+
+  .hero-img-c { height: 500px; }
+  .hero-h1 { font-size: 68px; }
+
+  .hero-body {
+    padding: 48px 60px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 48px;
+    align-items: start;
+  }
+  .hero-desc { grid-column: 1 / -1; }
+  .wa-btn { grid-column: 1; }
+  .ghost-btn { grid-column: 2; margin-top: 0; }
+  .pills { grid-column: 1 / -1; }
+  .stat-row { grid-column: 1 / -1; }
+  .award-badge { grid-column: 1 / -1; margin-left: 0; margin-right: 0; }
+
+  .reviews-header { padding: 0 60px 20px; }
+  .reviews-track-wrap { padding: 0 60px 16px; }
+  .rev-card { width: 320px; }
+
+  .hist-img-c { height: 420px; }
+  .hist-content { padding: 48px 60px 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; align-items: start; }
+  .hist-p { grid-column: 1 / -1; }
+  .quote-block { grid-column: 1 / -1; }
+  .valores { grid-column: 1 / -1; }
+
+  .prod-hdr { padding: 48px 60px 0; }
+  .filter-row { padding: 0 60px 24px; }
+
+  .prod-list { padding: 0 44px; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .pc-img { height: 200px; }
+
+  .pack-sec { padding: 4px 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+  .pack-img-hero { grid-column: 1 / -1; height: 300px; }
+  .pack-lbl { grid-column: 1 / -1; }
+
+  .prod-cta { padding: 24px 44px 48px; }
+
+  .ficha-hero-c img { height: 420px; }
+  .ficha-body { padding: 36px 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; align-items: start; }
+  .ficha-price-row { grid-column: 1 / -1; }
+  .ficha-desc { grid-column: 1 / -1; }
+  .ficha-contenido { grid-column: 1 / -1; }
+  .flavor-wrap { grid-column: 1 / -1; }
+  .ficha-tbl { grid-column: 1; }
+  .chip-row { grid-column: 2; align-content: start; }
+  .conserva { grid-column: 1 / -1; }
+  .add-cart-btn { grid-column: 1; }
+  .wa-btn.ficha-wa { grid-column: 2; }
+
+  .pedir-pad { padding: 48px 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; align-items: start; }
+  .pedir-pad > .eyebrow,
+  .pedir-pad > .big-h,
+  .pedir-pad > .sub-p { grid-column: 1 / -1; }
+  .steps { grid-column: 1; }
+  .sistema-reserva { grid-column: 2; margin-top: 0; }
+  .faq-sec { grid-column: 1 / -1; }
+
+  .cuid-hdr { padding: 48px 60px 28px; }
+  .cuid-grid { padding: 0 44px; grid-template-columns: repeat(3, 1fr); }
+  .envase-blk { margin: 12px 44px; }
+  .cuid-foot { padding: 20px 60px 48px; }
+
+  .cta-dark { padding: 80px 60px 64px; }
+  .cta-links { padding: 32px 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cta-foot { padding: 24px 60px; }
+}
+
+.alerge-box{background:#fff8f0;border:1px solid rgba(196,31,5,0.15);border-radius:10px;padding:14px;margin-bottom:16px;}
+.alerge-box h4{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--r);margin-bottom:10px;font-family:"Nunito",sans-serif;}
+.alerge-list{display:flex;flex-wrap:wrap;gap:6px;}
+.alerge-tag{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(196,31,5,0.06);border:1px solid rgba(196,31,5,0.2);border-radius:20px;font-size:12px;color:var(--rd);font-weight:600;}
+.alerge-tag::before{content:"⚠ ";font-size:11px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav onclick="void(0)">
+  <div class="nav-left" onclick="go('home')" style="cursor:pointer;">
+    <img class="nav-logo-img" src="img/00.png" alt="Logo La Dicha Marbana">
+    <div class="nav-brand">La Dicha Marbana<small>Pequeña quesería artesanal</small></div>
+  </div>
+  <button class="hamburger" id="ham" onclick="event.stopPropagation();toggleMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-drawer" id="drawer">
+  <button class="nd-btn on" id="nd-home" onclick="go('home')">Inicio</button>
+  <button class="nd-btn" id="nd-historia" onclick="go('historia')">Historia</button>
+  <button class="nd-btn" id="nd-productos" onclick="go('productos')">Productos</button>
+  <button class="nd-btn" id="nd-pedir" onclick="go('pedir')">Cómo pedir</button>
+  <button class="nd-btn" id="nd-cuidados" onclick="go('cuidados')">Cuidado del queso</button>
+  <button class="nd-btn" id="nd-contacto" onclick="go('contacto')">Contacto</button>
+</div>
+
+<!-- CART -->
+<div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+<button class="cart-btn" onclick="toggleCart()" title="Mi pedido">
+  <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7 17h11v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0023.47 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2z"/></svg>
+  <span class="cart-count" id="cart-count">0</span>
+</button>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-handle"></div>
+  <div class="cart-header">
+    <h3>Mi pedido</h3>
+    <button class="cart-close" onclick="closeCart()">×</button>
+  </div>
+  <div id="cart-body">
+    <div class="cart-empty">Tu pedido está vacío.<br>Añade productos desde las fichas.</div>
+  </div>
+  <div class="cart-footer" id="cart-footer" style="display:none;">
+    <div class="cart-total"><span>Total estimado</span><span class="cart-total-price" id="cart-total-price">0 €</span></div>
+    <button class="cart-wa-btn" onclick="sendCartWA()">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Enviar pedido por WhatsApp
+    </button>
+  </div>
+</div>
+
+<!-- HOME -->
+<section id="home" class="on">
+  <div style="position:relative;">
+    <div class="hero-img-c">
+      <img src="img/01.jpg" alt="Productos La Dicha Marbana">
+    </div>
+    <div class="hero-over">
+      <p class="hero-eyebrow">Vezdemarbán · Zamora · Desde 2020</p>
+      <h1 class="hero-h1">Queso hecho<br>con las <em>manos</em><br>y el corazón</h1>
+    </div>
+    <div class="hero-logo-stamp" onclick="go('home')">
+      <img src="img/00.png" alt="Logo">
+    </div>
+  </div>
+  <div class="hero-body">
+    <p class="hero-desc">Detrás de un portón de 200 años en la plaza de Vezdemarbán, Tere elabora quesos de oveja y cabra con leche del propio pueblo. Sin prisas, sin aditivos, con envases de vidrio retornables.</p>
+    <div class="hero-ctas-row">
+      <button class="wa-btn" onclick="openWA()">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Pedir por WhatsApp
+      </button>
+      <button class="ghost-btn" onclick="go('productos')" style="margin-top:0;">Ver todos los productos →</button>
+    </div>
+    <div class="pills">
+      <div class="pill"><div class="pill-dot"></div>Oveja y cabra del pueblo</div>
+      <div class="pill"><div class="pill-dot"></div>Envases vidrio retornables</div>
+      <div class="pill"><div class="pill-dot"></div>Sin conservantes</div>
+      <div class="pill"><div class="pill-dot"></div>Reparto mensual en Zamora</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-num">58</div><div class="stat-label">Reseñas 5★</div></div>
+      <div class="stat"><div class="stat-num">2020</div><div class="stat-label">Apertura</div></div>
+      <div class="stat clickable" onclick="go('productos')" title="Ver productos">
+        <div class="stat-num">7</div><div class="stat-label">Productos ↗</div>
+      </div>
+    </div>
+    <div class="award-badge">
+      <div class="award-icon">🏆</div>
+      <div class="award-text">
+        <h4>Mejor Quesería Española 2024</h4>
+        <p>Premio FECOES — Federación Española de Cofradías Vínicas y Gastronómicas</p>
+      </div>
+    </div>
+    <div class="reviews-section">
+      <div class="reviews-header">
+        <h3>Lo que dicen</h3>
+        <a href="https://www.google.com/search?q=Quesería+Artesanal+La+Dicha+Marbana+Reseñas" target="_blank">Ver en Google →</a>
+      </div>
+      <div class="reviews-track-wrap">
+        <div class="reviews-track">
+          <div class="rev-card">
+      <div class="rev-stars"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+      <p class="rev-text">"Quesos y yogures muy especiales, con un sabor único, todo artesanal y un trato muy cercano. Recomiendo muchísimo el yogur, el Luna Marbana y las cremas de queso, ¡cualquiera de ellas!"</p>
+      <p class="rev-name">— Ana García</p>
+    </div><div class="rev-card">
+      <div class="rev-stars"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+      <p class="rev-text">"La mejor quesería del mundo. Les daría 5 estrellas Michelin: Exquisitos, Exclusivos, Ecológicos, Económicos y Encantadores. Artesanal y familiar."</p>
+      <p class="rev-name">— Carlos M.</p>
+    </div><div class="rev-card">
+      <div class="rev-stars"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+      <p class="rev-text">"Impresionante el viaje de sabores que ofrecen. Con un trato exquisito y productos inmejorables. El queso fresco, curado, yogur, cuajada o cremas... ¡todo delicioso! Mil gracias por apostar por la quesería artesanal en el mundo rural."</p>
+      <p class="rev-name">— María José P.</p>
+    </div><div class="rev-card">
+      <div class="rev-stars"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+      <p class="rev-text">"Quesos y yogures hechos con mucho mimo. Están buenísimos y es un placer saborearlos. El queso fresco, el rulito, luna marbana y yogur con miel mis favoritos. ¡Deseando volver a disfrutar de ellos!"</p>
+      <p class="rev-name">— Roberto L.</p>
+    </div><div class="rev-card">
+      <div class="rev-stars"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+      <p class="rev-text">"Una amiga nos trajo queso fresco y cuajada de oveja. Impresionantes. Un negocio local artesano que ofrece productos de máxima calidad y defiende la producción de toda la vida apostando por la sostenibilidad."</p>
+      <p class="rev-name">— Lucía F.</p>
+    </div><div class="rev-card">
+      <div class="rev-stars"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+      <p class="rev-text">"Nos lo dejaron como detallito en una casa rural y al llegar a casa no podíamos parar de comerlo. Un sabor auténtico de 10 y tradicional. ¡Buenísimo!"</p>
+      <p class="rev-name">— Pedro S.</p>
+    </div><div class="rev-card">
+      <div class="rev-stars"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#c41f05;display:inline;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+      <p class="rev-text">"Premio Mejor Quesería Española 2024 muy merecido. Productos únicos, trato cercano y una filosofía sostenible admirable. El encetao y el rulito de cabra son una experiencia."</p>
+      <p class="rev-name">— Elena T.</p>
+    </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HISTORIA -->
+<section id="historia">
+  <div style="position:relative;">
+    <div class="hist-img-c"><img src="img/02.jpg" alt="Tere, fundadora de La Dicha Marbana"></div>
+    <div class="hist-over"><h2>Mi historia</h2><p>Tere · Fundadora</p></div>
+  </div>
+  <div class="hist-content">
+    <p class="hist-p">Soy Tere, madrileña de nacimiento, cordobesa y zamorana de sangre y corazón. Volví a la tierra de mis raíces maternas para cambiar el estilo y el ritmo de vida, y construí esta quesería poquito a poco, entre muchas manos amigas y mucha ilusión.</p>
+    <p class="hist-p">La quesería está en plena plaza del ayuntamiento de Vezdemarbán, detrás de un portón de más de 200 años de antigüedad. Está construida sobre la antigua cuadra y panera de mis antepasados maternos. Abrimos puertas en 2020.</p>
+    <div class="quote-block"><blockquote>"Raíces, artesanía, ecología, tradición y cercanía. Eso es La Dicha."</blockquote><cite>— Tere, La Dicha Marbana</cite></div>
+    <p class="hist-p">Elaboro productos poco comunes por la zona: yogures y cuajadas de oveja, cremas untables, queso fresco, rulito de cabra y quesos madurados de corteza floreada. Todo con leche de cabras y ovejas de ganaderos del propio pueblo.</p>
+    <p class="hist-p">El logo lleva las flores del faldón tradicional de Francisca, mi bisabuela. Una historia que se lleva puesta.</p>
+    <div class="valores">
+      <div class="valor"><div class="valor-n">01</div><div class="valor-t"><h4>Economía circular de verdad</h4><p>La leche viene del mismo pueblo. El producto se vende en localidades cercanas. Pocos kilómetros entre producción y venta.</p></div></div>
+      <div class="valor"><div class="valor-n">02</div><div class="valor-t"><h4>Envases retornables</h4><p>Vidrio retornable con devolución de 0,20 € por envase. Etiquetas con mínimo plástico para quitarlas fácilmente.</p></div></div>
+      <div class="valor"><div class="valor-n">03</div><div class="valor-t"><h4>Residuo casi cero</h4><p>Los materiales desechables son biodegradables: papel encerado, cordel. Bajo impacto medioambiental en cada pedido.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section id="productos">
+  <div class="prod-hdr"><p class="eyebrow">Nuestra selección</p><h2 class="big-h">Productos</h2><p class="sub-p">Elaborados con leche de oveja y cabra de Vezdemarbán. La variedad puede cambiar según temporada.</p></div>
+  <div class="filter-row">
+    <button class="pf on" onclick="filterProd('all',this)">Todos</button>
+    <button class="pf" onclick="filterProd('oveja',this)">Oveja</button>
+    <button class="pf" onclick="filterProd('cabra',this)">Cabra</button>
+    <button class="pf" onclick="filterProd('untable',this)">Untables</button>
+    <button class="pf" onclick="filterProd('pack',this)">Packs</button>
+  </div>
+  <div class="prod-list" id="prod-list">
+    <div class="pc" data-cat="oveja" onclick="openFicha('fresco')" style="cursor:pointer;"><div class="pc-img"><img src="img/03.jpg" alt="Queso fresco" loading="lazy"></div><div class="pc-body"><p class="pc-cat">Oveja · Fresco</p><p class="pc-name">Queso fresco</p><p class="pc-desc">Leche pasteurizada · 400–500 g</p><div class="pc-foot"><span class="pc-price">7 €</span><button class="pc-more" onclick="event.stopPropagation();openFicha('fresco')">Ver ficha</button></div></div></div>
+    <div class="pc" data-cat="oveja" onclick="openFicha('luna')" style="cursor:pointer;"><div class="pc-img"><img src="img/04.jpg" alt="Luna Marbana" loading="lazy"></div><div class="pc-body"><p class="pc-cat">Oveja · Semiblanda</p><p class="pc-name">Luna Marbana</p><p class="pc-desc">Leche cruda · corteza floreada · ≈700 g</p><div class="pc-foot"><span class="pc-price">27 €/kg</span><button class="pc-more" onclick="event.stopPropagation();openFicha('luna')">Ver ficha</button></div></div></div>
+    <div class="pc" data-cat="oveja" onclick="openFicha('encetao')" style="cursor:pointer;"><div class="pc-img"><img src="img/05.jpg" alt="Encetao" loading="lazy"></div><div class="pc-body"><p class="pc-cat">Oveja · Semicocido</p><p class="pc-name">Encetao</p><p class="pc-desc">Leche cruda · afinado en madera</p><div class="pc-foot"><span class="pc-price">30 €/kg</span><button class="pc-more" onclick="event.stopPropagation();openFicha('encetao')">Ver ficha</button></div></div></div>
+    <div class="pc" data-cat="cabra" onclick="openFicha('rulito')" style="cursor:pointer;"><div class="pc-img"><img src="img/06.jpg" alt="Rulito de cabra" loading="lazy"></div><div class="pc-body"><p class="pc-cat">Cabra · Láctica</p><p class="pc-name">Rulito de cabra</p><p class="pc-desc">Leche cruda · pasta láctica · corteza blanca</p><div class="pc-foot"><span class="pc-price">6,50 €/200g</span><button class="pc-more" onclick="event.stopPropagation();openFicha('rulito')">Ver ficha</button></div></div></div>
+    <div class="pc" data-cat="oveja" onclick="openFicha('cuajada')" style="cursor:pointer;"><div class="pc-img"><img src="img/07.jpg" alt="Cuajada" loading="lazy"></div><div class="pc-body"><p class="pc-cat">Oveja · Cuajada</p><p class="pc-name">Cuajada de oveja</p><p class="pc-desc">Leche pasteurizada · 425 ml / 1 L</p><div class="pc-foot"><span class="pc-price">4,50–7 €</span><button class="pc-more" onclick="event.stopPropagation();openFicha('cuajada')">Ver ficha</button></div></div></div>
+    <div class="pc" data-cat="oveja" onclick="openFicha('yogur')" style="cursor:pointer;"><div class="pc-img"><img src="img/08.jpg" alt="Yogur de oveja" loading="lazy"></div><div class="pc-body"><p class="pc-cat">Oveja · Yogur</p><p class="pc-name">Yogur de oveja</p><p class="pc-desc">Pasteurizado · natural, miel o fresa · 425 ml / 1 L</p><div class="pc-foot"><span class="pc-price">4,50–7 €</span><button class="pc-more" onclick="event.stopPropagation();openFicha('yogur')">Ver ficha</button></div></div></div>
+    <div class="pc" data-cat="untable" onclick="openFicha('crema')" style="cursor:pointer;"><div class="pc-img"><img src="img/09.jpg" alt="Crema de queso" loading="lazy"></div><div class="pc-body"><p class="pc-cat">Untable · 125 g</p><p class="pc-name">Crema de queso</p><p class="pc-desc">4 variedades: oreganajo, mediterráneo, hierbas, dulce</p><div class="pc-foot"><span class="pc-price">3 €/ud</span><button class="pc-more" onclick="event.stopPropagation();openFicha('crema')">Ver ficha</button></div></div></div>
+  </div>
+  <div class="pack-sec" id="pack-sec">
+    <div class="pack-img-hero"><img style="width:100%;height:100%;object-fit:contain;object-position:center center;" src="img/10.jpg" alt="Packs La Dicha Marbana" loading="lazy"></div>
+    <p class="pack-lbl">Packs recomendados</p>
+    <div class="pack-c" onclick="openFicha('pack_degu')"><div class="pack-top"><p class="pack-name">Pack degustación</p><p class="pack-price">27 €</p></div><p class="pack-items">1 yogur 425 ml · 1 queso fresco · 1 rulito · 1 crema · 150 g Luna Marbana · 150 g Encetao</p><span class="pack-ver">Ver ficha →</span></div>
+    <div class="pack-c" onclick="openFicha('pack_fam')"><div class="pack-top"><p class="pack-name">Pack familiar</p><p class="pack-price">44 €</p></div><p class="pack-items">1 yogur 1 L · 1 queso fresco · 1 rulito · 4 cremas · 250 g Luna Marbana · 250 g Encetao</p><span class="pack-ver">Ver ficha →</span></div>
+    <div class="pack-c" onclick="openFicha('pack_fresco')"><div class="pack-top"><p class="pack-name">Pack fresco</p><p class="pack-price">24 €</p></div><p class="pack-items">1 yogur 1 L · 1 queso fresco · 4 cremas de queso</p><span class="pack-ver">Ver ficha →</span></div>
+  </div>
+  <div class="prod-cta">
+    <div class="prod-note">Los precios son para compra en tienda. Para repartos y mercados, consúltanos por WhatsApp. Reparto en Zamora el primer o segundo jueves de cada mes.</div>
+    <button class="wa-btn" onclick="openWA()"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="#fff"/></svg>Consultar pedido por WhatsApp</button>
+  </div>
+</section>
+
+<!-- FICHA -->
+<section id="ficha">
+  <div class="ficha-hero-c"><img id="fi-img" src="img/03.jpg" alt="" style="object-position:center 20%;"><button class="ficha-back-btn" onclick="go('productos')">← Volver</button><div class="ficha-over"><p class="ficha-cat-lbl" id="fi-cat"></p><p class="ficha-title" id="fi-name"></p></div></div>
+  <div class="ficha-body">
+    <div class="ficha-price-row"><span class="ficha-price" id="fi-price"></span><span class="ficha-fmt" id="fi-fmt"></span></div>
+    <p class="ficha-desc" id="fi-desc"></p>
+    <div class="ficha-contenido" id="fi-contenido-wrap" style="display:none;"><h4>Contenido del pack</h4><p id="fi-contenido"></p></div>
+    <div class="flavor-wrap" id="fi-flavor-wrap" style="display:none;"><span class="flavor-label">Elige el sabor</span><div class="flavor-opts" id="fi-flavor-opts"></div></div>
+    <table class="ficha-tbl"><tr><td>Tipo de leche</td><td id="ft-leche"></td></tr><tr><td>Formato</td><td id="ft-fmt2"></td></tr><tr><td>Maduración</td><td id="ft-mad"></td></tr><tr><td>Envase</td><td id="ft-env"></td></tr></table>
+    <div class="chip-row" id="fi-chips"></div>
+    <div class="alerge-box" id="fi-alerge-box" style="display:none;">
+      <h4>Alérgenos</h4>
+      <div class="alerge-list" id="fi-alerge-list"></div>
+    </div>
+    <div class="conserva"><h4>Cómo conservar</h4><ul id="fi-cons"></ul></div>
+    <button class="add-cart-btn" id="fi-add-cart" onclick="addToCartFromFicha()">+ Añadir a mi pedido</button>
+    <button class="wa-btn" onclick="openWA()"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="#fff"/></svg>Pedir por WhatsApp</button>
+    <p style="font-size:12px;color:var(--ink3);margin-top:9px;text-align:center;">Indícanos el producto y la cantidad. Te confirmamos precio para reparto.</p>
+  </div>
+</section>
+
+<!-- PEDIR -->
+<section id="pedir">
+  <div class="pedir-pad">
+    <p class="eyebrow">Sin complicaciones</p><h2 class="big-h">Cómo pedir</h2><p class="sub-p" style="margin-bottom:26px;">Personal, directo, sin formularios. Tere responde ella misma cada mensaje.</p>
+    <div class="steps">
+      <div class="step"><div class="step-c">1</div><div class="step-t"><h3>Elige tus quesos</h3><p>Consulta la selección y añade los que quieras a tu pedido desde cada ficha de producto.</p></div></div>
+      <div class="step"><div class="step-c">2</div><div class="step-t"><h3>Envía tu selección por WhatsApp</h3><p>Cuando estés listo, envía tu pedido con un clic. Tere recibe el mensaje con todos los productos seleccionados y confirma disponibilidad.</p></div></div>
+      <div class="step"><div class="step-c">3</div><div class="step-t"><h3>Entrega en Zamora</h3><p>Reparto el primer o segundo jueves de cada mes. También en mercados de Toro, Medina de Rioseco y ferias de Zamora y Salamanca.</p></div></div>
+    </div>
+    <div class="sistema-reserva">
+      <h4>¿Prefieres hacer tu pedido online?</h4>
+      <p>Usa nuestro sistema de reserva: elige productos, cantidades y envíanos todo de golpe.</p>
+      <button class="reserva-btn" onclick="window.open('https://ladichamarbana-code.github.io/reservatupedido/','_blank')">📋 Abrir sistema de reserva</button>
+    </div>
+    <div class="faq-sec" style="margin-top:24px;">
+      <p class="faq-lbl">Preguntas frecuentes</p>
+      <div class="fi"><button class="fq" onclick="toggleFaq(this)">¿Con qué frecuencia hay reparto?<div class="fq-arr">+</div></button><div class="fa"><p>Reparto en Zamora el primer o segundo jueves de cada mes. También venta en mercadillos locales y ferias. Escríbenos para las próximas fechas.</p></div></div>
+      <div class="fi"><button class="fq" onclick="toggleFaq(this)">¿Cómo funciona la devolución de envases?<div class="fq-arr">+</div></button><div class="fa"><p>Al devolver cada envase de vidrio recuperas 0,20 €. Las etiquetas están pegadas con mínimo plástico para quitarlas fácilmente.</p></div></div>
+      <div class="fi"><button class="fq" onclick="toggleFaq(this)">¿Hacéis envíos fuera de Zamora?<div class="fq-arr">+</div></button><div class="fa"><p>El modelo está pensado para Zamora y provincias cercanas. Para otras zonas, consúltanos por WhatsApp.</p></div></div>
+      <div class="fi"><button class="fq" onclick="toggleFaq(this)">¿Los productos varían según temporada?<div class="fq-arr">+</div></button><div class="fa"><p>Sí. Al trabajar con leche local del propio pueblo, la producción depende del ciclo ganadero y la estación. Consúltanos disponibilidad.</p></div></div>
+    </div>
+  </div>
+  <div style="padding:4px 20px 36px;"><button class="wa-btn" onclick="openWA()"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="#fff"/></svg>Hacer pedido por WhatsApp</button></div>
+</section>
+
+<!-- CUIDADOS -->
+<section id="cuidados">
+  <div class="cuid-hdr"><p class="eyebrow">Guía de cuidado</p><h2 class="big-h">Cuida tu queso</h2><p class="sub-p">Para que cada producto llegue a tu mesa en su mejor momento.</p></div>
+  <div class="cuid-grid">
+    <div class="cc"><div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><p class="cc-title">4 – 8 °C</p><p class="cc-text">Guardar en nevera. Evitar cambios bruscos de temperatura.</p></div>
+    <div class="cc"><div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div><p class="cc-title">Tiempo de consumo</p><p class="cc-text">Fresco: 5–7 días. Curado: 2–3 semanas bien tapado.</p></div>
+    <div class="cc"><div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg></div><p class="cc-title">Antes de servir</p><p class="cc-text">Sacar 15–20 min antes. El sabor se potencia a temperatura ambiente.</p></div>
+    <div class="cc"><div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l5 2.18V11c0 3.5-2.33 6.79-5 7.93-2.67-1.14-5-4.43-5-7.93V7.18L12 5z"/></svg></div><p class="cc-title">No congelar</p><p class="cc-text">La congelación altera la textura y el sabor artesanal.</p></div>
+    <div class="cc"><div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div><p class="cc-title">Cierre hermético</p><p class="cc-text">Mantener tapado para preservar la humedad y el aroma.</p></div>
+    <div class="cc"><div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21H5.71c.66-1.72 1.72-3.19 3.06-4.35C11.07 15.13 13.54 14 17 14v4l5-5-5-5v4z"/></svg></div><p class="cc-title">Devolución</p><p class="cc-text">Devuelve el envase en el siguiente pedido y recupera 0,20 €.</p></div>
+  </div>
+  <div class="envase-blk"><h3>El sistema de envases de vidrio</h3><ul>
+    <li><span class="ea">→</span>Recibes tu pedido en envases de vidrio retornables</li>
+    <li><span class="ea">→</span>Lava el envase con agua caliente y jabón</li>
+    <li><span class="ea">→</span>Quita la etiqueta fácilmente (mínimo plástico)</li>
+    <li><span class="ea">→</span>Devuelve los envases en el siguiente reparto y recupera 0,20 € por cada uno</li>
+    <li><span class="ea">→</span>Así reducimos residuos y mantenemos el precio del producto</li>
+  </ul></div>
+  <div class="cuid-foot">
+    <p style="font-size:13px;color:var(--ink3);line-height:1.75;margin-bottom:14px;">¿Tienes dudas sobre cómo conservar algún producto?<br>Tere te responde personalmente.</p>
+    <button class="ghost-btn" style="width:auto;display:inline-flex;" onclick="go('contacto')">Escríbenos →</button>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="cta-dark">
+    <div class="cta-logo-c"><img src="img/00.png" alt="Logo La Dicha Marbana"></div>
+    <p class="cta-eyebrow">¿Todo listo?</p>
+    <h2 class="cta-h2">Haz tu pedido<br>cuando quieras</h2>
+    <p class="cta-sub">Escríbenos por WhatsApp y Tere te responde ella misma. Sin formularios, sin bots, sin esperas.</p>
+    <button class="wa-btn" onclick="openWA()" style="max-width:300px;margin:0 auto;"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="#fff"/></svg>Pedir por WhatsApp</button>
+    <p class="cta-reassure">✓ Tere responde personalmente cada mensaje</p>
+  </div>
+  <div class="cta-div"></div>
+  <div class="cta-links">
+    <a class="cl" href="https://wa.me/34626247238" target="_blank"><div class="cl-ico" style="background:rgba(76,175,80,0.14);">📱</div><div><p class="cl-lbl">WhatsApp</p><p class="cl-val">+34 626 24 72 38</p></div></a>
+    <a class="cl" href="mailto:quesoaqueso@gmail.com"><div class="cl-ico" style="background:rgba(196,31,5,0.1);">✉️</div><div><p class="cl-lbl">Email</p><p class="cl-val">quesoaqueso@gmail.com</p></div></a>
+    <a class="cl" href="https://www.instagram.com/ladichamarbana/" target="_blank"><div class="cl-ico" style="background:rgba(196,31,5,0.1);">📸</div><div><p class="cl-lbl">Instagram</p><p class="cl-val">@ladichamarbana</p></div></a>
+    <a class="cl" href="https://www.facebook.com/ladichamarbana/" target="_blank"><div class="cl-ico" style="background:rgba(196,31,5,0.1);">📘</div><div><p class="cl-lbl">Facebook</p><p class="cl-val">La Dicha Marbana</p></div></a>
+    <a class="cl" href="https://maps.google.com/?q=Quesería+La+Dicha+Marbana,+Vezdemarbán,+Zamora" target="_blank"><div class="cl-ico" style="background:rgba(196,31,5,0.1);">📍</div><div><p class="cl-lbl">Cómo llegar</p><p class="cl-val">Plaza del Ayuntamiento · Vezdemarbán, Zamora</p></div></a>
+  </div>
+  <div class="cta-foot"><p class="cta-foot-brand">La Dicha Marbana</p><p class="cta-foot-tag">Pequeña quesería artesanal · Vezdemarbán · Zamora · Desde 2020</p></div>
+</section>
+
+</div><!-- /wrap -->
+
+<script>
+const FD={
+  fresco:{img:"img/03.jpg",cat:"Oveja · Fresco",name:"Queso fresco",price:"7 €",fmt:"por unidad (400–500 g)",desc:"Elaborado con leche de oveja pasteurizada de ganaderos de Vezdemarbán. Textura suave y cremosa, sabor limpio y delicado. El más versátil de la quesería: perfecto solo, con miel, en ensaladas o como base de una tabla.",leche:"Oveja pasteurizada",formato:"Pieza entera 400–500 g",mad:"Sin curar",env:"Retornable (devol. 0,20 €)",chips:["Sabor lácteo fresco","Textura suave","Con miel o frutos rojos","Base ideal para tablas"],cons:["Nevera entre 4 y 8 °C","Consumir en 5–7 días tras apertura","Mantener tapado en envase original","Sacar 15 min antes de consumir"],flavors:null,contenido:null,alergenos:["Lácteos"],imgPos:"center 60%"},
+  luna:{img:"img/04.jpg",cat:"Oveja · Semiblanda",name:"Luna Marbana",price:"27 €/kg",fmt:"pieza entera aprox. 700 g",desc:"Queso de oveja de leche cruda con pasta semiblanda y corteza floreada comestible. Uno de los productos más singulares de La Dicha: elegante, complejo y difícil de encontrar en la zona.",leche:"Oveja cruda",formato:"Pieza entera ≈ 700 g",mad:"Curación media-larga",env:"Papel encerado biodegradable",chips:["Corteza floreada comestible","Pasta semiblanda","Leche cruda","Sabor complejo y profundo"],cons:["Nevera entre 4 y 8 °C","Envuelto en papel encerado","Consumir en 2–3 semanas","Sacar 20 min antes de servir"],flavors:null,contenido:null,alergenos:["Lácteos"],imgPos:"center 30%"},
+  encetao:{img:"img/05.jpg",cat:"Oveja · Semicocido",name:"Encetao",price:"30 €/kg",fmt:"al peso",desc:"Queso de oveja de leche cruda con pasta semicocida, corteza natural y afinado en madera. Carácter firme, notas tostadas y un sabor que refleja el territorio zamorano. El más curado de la selección.",leche:"Oveja cruda",formato:"Al peso",mad:"Larga curación · Afinado en madera",env:"Papel encerado biodegradable",chips:["Pasta semicocida","Afinado en madera","Corteza natural","Notas tostadas e intensas"],cons:["Nevera entre 4 y 8 °C","Envuelto en papel encerado o film","Consumir en 3–4 semanas","Sacar 25 min antes de servir"],flavors:null,contenido:null,alergenos:["Lácteos"],imgPos:"center 40%"},
+  rulito:{img:"img/06.jpg",cat:"Cabra · Láctica",name:"Rulito de cabra",price:"6,50 €/200g",fmt:"al peso · aprox. 200 g",desc:"Queso de leche cruda de cabra, pasta láctica y corteza blanca florida. Fresco, suave y con el carácter propio de la leche de cabra. Ideal para tapas, tablas o para comer solo con un buen pan.",leche:"Cabra cruda",formato:"Al peso · aprox. 200 g",mad:"Maduración corta",env:"Papel encerado biodegradable",chips:["Pasta láctica","Corteza blanca","Leche cruda de cabra","Sabor fresco y suave"],cons:["Nevera entre 4 y 8 °C","Consumir en 7–10 días","Mantener tapado envuelto en papel","Sacar 15 min antes de consumir"],flavors:null,contenido:null,alergenos:["Lácteos"],imgPos:"center 35%"},
+  cuajada:{img:"img/07.jpg",cat:"Oveja · Cuajada",name:"Cuajada de oveja",price:"4,50–7 €",fmt:"425 ml o 1 litro",desc:"Cuajada elaborada con leche de oveja pasteurizada de Vezdemarbán. Textura sedosa, sabor delicado y lácteo. Un producto tradicional difícil de encontrar. Disponible en tarro pequeño (425 ml) o grande (1 litro).",leche:"Oveja pasteurizada",formato:"425 ml o 1 litro",mad:"—",env:"Retornable (devol. 0,20 €)",chips:["Textura sedosa","Sabor delicado","Leche de oveja local","Retornable"],cons:["Nevera entre 2 y 6 °C","Consumir antes de la fecha indicada","Mantener tapado","No congelar"],flavors:null,contenido:null,alergenos:["Lácteos"],imgPos:"center 20%"},
+  yogur:{img:"img/08.jpg",cat:"Oveja · Yogur",name:"Yogur de oveja",price:"4,50–7 €",fmt:"425 ml o 1 litro",desc:"Yogur elaborado con leche de oveja pasteurizada del pueblo. Cremoso, denso y con más grasa que el yogur de vaca. Disponible en natural, con miel o con fresa.",leche:"Oveja pasteurizada",formato:"425 ml o 1 litro",mad:"—",env:"Retornable (devol. 0,20 €)",chips:["Natural, miel o fresa","Más cremoso que el de vaca","Leche de oveja local","Envase retornable"],cons:["Nevera entre 2 y 6 °C","Consumir antes de la fecha indicada","Mantener tapado","No congelar"],flavors:["Natural","Con miel","Con fresa"],contenido:null,alergenos:["Lácteos"],imgPos:"center 25%"},
+  crema:{img:"img/09.jpg",cat:"Untable · 125 g",name:"Crema de queso",price:"3 €",fmt:"por unidad · 125 g",desc:"Cremas untables en cuatro variedades: Oreganajo (orégano, ajo y sal), Mediterráneo (tomate seco, orégano y sal), Hierbas provenzales y Dulce (azúcar moreno y sal). Perfectas para aperitivo o regalo.",leche:"Oveja pasteurizada",formato:"Tarro 125 g",mad:"—",env:"Retornable (devol. 0,20 €)",chips:["Oreganajo","Mediterráneo","Hierbas provenzales","Dulce"],cons:["Nevera entre 4 y 8 °C","Consumir en 7–10 días tras apertura","Mantener tapado","Sacar 10 min antes de servir"],flavors:["Oreganajo","Mediterráneo","Hierbas provenzales","Dulce"],contenido:null,alergenos:["Lácteos"],imgPos:"center"},
+  
+  pack_degu:{img:"img/10.jpg",cat:"Pack · Degustación",name:"Pack Degustación",price:"27 €",fmt:"6 productos seleccionados",desc:"El pack perfecto para descubrir La Dicha Marbana. Incluye una muestra representativa de toda la gama: frescos, madurados, untables y lácteos. Ideal para regalar o para tu primera compra.",leche:"Varios",formato:"Ver contenido",mad:"—",env:"Envases retornables incluidos",chips:["Selección completa","Ideal para regalar","Primera compra perfecta","6 productos"],cons:["Cada producto tiene su conservación específica","Ver etiqueta de cada envase","Nevera entre 2 y 8 °C para todos","Consumir según fecha de cada producto"],contenido:"1 yogur 425 ml · 1 queso fresco · 1 rulito de cabra · 1 crema · 150 g Luna Marbana · 150 g Encetao",alergenos:["Lácteos"]},
+  pack_fam:{img:"img/11.jpg",cat:"Pack · Familiar",name:"Pack Familiar",price:"44 €",fmt:"7 productos en mayor cantidad",desc:"El pack grande para toda la familia o para los más fans de La Dicha. Más cantidad de todo, incluyendo el yogur de 1 litro y cuatro cremas de queso para elegir sabor.",leche:"Varios",formato:"Ver contenido",mad:"—",env:"Envases retornables incluidos",chips:["Mayor cantidad","Para toda la familia","4 cremas a elegir","Yogur 1 litro"],cons:["Cada producto tiene su conservación específica","Ver etiqueta de cada envase","Nevera entre 2 y 8 °C para todos","Consumir según fecha de cada producto"],contenido:"1 yogur 1 L · 1 queso fresco · 1 rulito · 4 cremas · 250 g Luna Marbana · 250 g Encetao",alergenos:["Lácteos"]},
+  pack_fresco:{img:"img/11.jpg",cat:"Pack · Fresco",name:"Pack Fresco",price:"24 €",fmt:"5 productos frescos",desc:"El pack más fresco de la selección. Sin madurados, todo al natural: yogur, queso fresco y las cuatro variedades de crema. Perfecto para quien prefiere los sabores más suaves y lácticos.",leche:"Oveja pasteurizada",formato:"Ver contenido",mad:"—",env:"Envases retornables incluidos",chips:["Solo frescos","Suave y lácteo","4 cremas incluidas","Sin curados"],cons:["Nevera entre 2 y 8 °C","Consumir según fecha de cada envase","No congelar","Mantener tapado"],contenido:"1 yogur 1 L · 1 queso fresco · 4 cremas de queso",alergenos:["Lácteos"]},
+
+};
+
+let currentFichaKey = null;
+let selectedFlavor = null;
+let cart = [];
+
+function go(id) {
+  document.querySelectorAll("section").forEach(s => s.classList.remove("on"));
+  document.getElementById(id).classList.add("on");
+  ["home","historia","productos","pedir","cuidados","contacto"].forEach(s => {
+    const b = document.getElementById("nd-" + s);
+    if (b) b.classList.toggle("on", s === id || (id === "ficha" && s === "productos"));
+  });
+  closeMenu();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function toggleMenu() {
+  document.getElementById("ham").classList.toggle("open");
+  document.getElementById("drawer").classList.toggle("open");
+}
+function closeMenu() {
+  document.getElementById("ham").classList.remove("open");
+  document.getElementById("drawer").classList.remove("open");
+}
+
+function openFicha(k) {
+  currentFichaKey = k;
+  selectedFlavor = null;
+  const f = FD[k];
+  const fiImg = document.getElementById("fi-img");
+  fiImg.src = f.img;
+  const isPack = k.startsWith("pack_");
+  fiImg.style.objectFit = isPack ? "contain" : "cover";
+  fiImg.style.objectPosition = isPack ? "center center" : (f.imgPos || "center 20%");
+  fiImg.parentElement.style.background = isPack ? "var(--p2)" : "";
+  document.getElementById("fi-cat").textContent = f.cat;
+  document.getElementById("fi-name").textContent = f.name;
+  document.getElementById("fi-price").textContent = f.price;
+  document.getElementById("fi-fmt").textContent = f.fmt;
+  document.getElementById("fi-desc").textContent = f.desc;
+  document.getElementById("ft-leche").textContent = f.leche;
+  document.getElementById("ft-fmt2").textContent = f.formato;
+  document.getElementById("ft-mad").textContent = f.mad;
+  document.getElementById("ft-env").textContent = f.env;
+  document.getElementById("fi-chips").innerHTML = f.chips.map(c => `<span class="chip">${c}</span>`).join("");
+  document.getElementById("fi-cons").innerHTML = f.cons.map(c => `<li>${c}</li>`).join("");
+  const alBox = document.getElementById("fi-alerge-box");
+  const alList = document.getElementById("fi-alerge-list");
+  if (f.alergenos && f.alergenos.length > 0) {
+    alBox.style.display = "block";
+    alList.innerHTML = f.alergenos.map(function(a){ return '<span class="alerge-tag">' + a + '</span>'; }).join("");
+  } else {
+    alBox.style.display = "none";
+  }
+  // Pack content
+  const cw = document.getElementById("fi-contenido-wrap");
+  if (f.contenido) { cw.style.display="block"; document.getElementById("fi-contenido").textContent = f.contenido; }
+  else { cw.style.display="none"; }
+  // Flavor selector
+  const fw = document.getElementById("fi-flavor-wrap");
+  const fo = document.getElementById("fi-flavor-opts");
+  if (f.flavors) {
+    fw.style.display = "block";
+    fo.innerHTML = f.flavors.map((fl,i) => `<button class="flavor-opt${i===0?" sel":""}" onclick="selectFlavor(this,'${fl}')">${fl}</button>`).join("");
+    selectedFlavor = f.flavors[0];
+  } else {
+    fw.style.display = "none";
+  }
+  go("ficha");
+}
+
+function selectFlavor(btn, fl) {
+  document.querySelectorAll(".flavor-opt").forEach(b => b.classList.remove("sel"));
+  btn.classList.add("sel");
+  selectedFlavor = fl;
+}
+
+function addToCartFromFicha() {
+  const f = FD[currentFichaKey];
+  const name = f.flavors && selectedFlavor ? f.name + " — " + selectedFlavor : f.name;
+  cart.push({ key: currentFichaKey, name, price: f.price, img: f.img });
+  updateCartUI();
+  const btn = document.getElementById("fi-add-cart");
+  btn.textContent = "✓ Añadido";
+  btn.style.background = "var(--r)";
+  btn.style.color = "#fff";
+  btn.style.borderColor = "var(--r)";
+  setTimeout(() => {
+    btn.textContent = "+ Añadir a mi pedido";
+    btn.style.background = "";
+    btn.style.color = "";
+    btn.style.borderColor = "";
+  }, 1500);
+}
+
+function updateCartUI() {
+  const count = cart.length;
+  const countEl = document.getElementById("cart-count");
+  countEl.textContent = count;
+  countEl.classList.toggle("show", count > 0);
+  const body = document.getElementById("cart-body");
+  const footer = document.getElementById("cart-footer");
+  if (count === 0) {
+    body.innerHTML = '<div class="cart-empty">Tu pedido está vacío.<br>Añade productos desde las fichas.</div>';
+    footer.style.display = "none";
+  } else {
+    body.innerHTML = '<div class="cart-items">' + cart.map((item, i) => `
+      <div class="cart-item">
+        <img class="cart-item-img" src="${item.img}" alt="${item.name}">
+        <span class="cart-item-name">${item.name}</span>
+        <span class="cart-item-price">${item.price}</span>
+        <button class="cart-item-remove" onclick="removeFromCart(${i})">×</button>
+      </div>`).join("") + "</div>";
+    footer.style.display = "block";
+    document.getElementById("cart-total-price").textContent = cart.length + " producto" + (cart.length > 1 ? "s" : "");
+  }
+}
+
+function removeFromCart(i) {
+  cart.splice(i, 1);
+  updateCartUI();
+}
+
+function toggleCart() {
+  const drawer = document.getElementById("cart-drawer");
+  const overlay = document.getElementById("cart-overlay");
+  drawer.classList.toggle("open");
+  overlay.classList.toggle("show");
+}
+function closeCart() {
+  document.getElementById("cart-drawer").classList.remove("open");
+  document.getElementById("cart-overlay").classList.remove("show");
+}
+
+function sendCartWA() {
+  if (cart.length === 0) return;
+  const lines = cart.map(item => "• " + item.name).join("\n");
+  const msg = "Hola Tere, me gustaría hacer el siguiente pedido:\n\n" + lines + "\n\n¿Tienes disponibilidad?";
+  window.open("https://wa.me/34626247238?text=" + encodeURIComponent(msg), "_blank");
+}
+
+function filterProd(cat, btn) {
+  document.querySelectorAll(".pf").forEach(b => b.classList.remove("on"));
+  btn.classList.add("on");
+  document.querySelectorAll(".pc").forEach(c => {
+    c.style.display = (cat === "all" || c.dataset.cat === cat) ? "flex" : "none";
+  });
+  document.getElementById("pack-sec").style.display = (cat === "all" || cat === "pack") ? "block" : "none";
+}
+
+function toggleFaq(btn) {
+  const fa = btn.nextElementSibling, arr = btn.querySelector(".fq-arr"), open = fa.classList.contains("open");
+  document.querySelectorAll(".fa").forEach(a => a.classList.remove("open"));
+  document.querySelectorAll(".fq-arr").forEach(a => a.textContent = "+");
+  if (!open) { fa.classList.add("open"); arr.textContent = "×"; }
+}
+
+function openWA() {
+  window.open("https://wa.me/34626247238?text=" + encodeURIComponent("Hola Tere, me gustaría hacer un pedido. ¿Qué tienes disponible?"), "_blank");
+}
+
+document.addEventListener("click", function(e) {
+  const d = document.getElementById("drawer");
+  if (d.classList.contains("open") && !d.contains(e.target) && !document.getElementById("ham").contains(e.target)) closeMenu();
+});
+</script>
+</body>
+</html>

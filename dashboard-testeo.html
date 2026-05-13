@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Testeo — La Dicha Marbana</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal:      #5b9ea0;
+    --teal-dark: #4a8486;
+    --teal-light:#d6eaeb;
+    --teal-pale: #eaf4f4;
+    --white:     #ffffff;
+    --text:      #2c2c2c;
+    --text-mid:  #4a4a4a;
+    --text-soft: #6b6b6b;
+    --green-ok:  #3a7d5a;
+    --green-bg:  #e4f2eb;
+  }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+    background: #fff;
+    padding: 2rem 1.5rem;
+  }
+
+  .dash {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .dash-header {
+    background: var(--teal);
+    color: #fff;
+    padding: 0.9rem 1.25rem;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .dash-header h1 { font-size: 15px; font-weight: bold; letter-spacing: 0.01em; }
+  .dash-header p  { font-size: 11px; opacity: 0.85; }
+
+  .dash-sub {
+    background: var(--teal-light);
+    padding: 6px 1.25rem;
+    font-size: 11px;
+    color: var(--teal-dark);
+    margin-bottom: 1.25rem;
+    border-radius: 0 0 4px 4px;
+  }
+
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .kpi {
+    background: var(--teal-pale);
+    border: 1px solid var(--teal-light);
+    border-top: 3px solid var(--teal);
+    border-radius: 4px;
+    padding: 0.75rem 0.85rem;
+    text-align: center;
+  }
+
+  .kpi-num   { font-size: 26px; font-weight: bold; color: var(--teal-dark); line-height: 1.1; }
+  .kpi-label { font-size: 10px; color: var(--text-mid); margin-top: 4px; line-height: 1.35; }
+  .kpi-badge { display: inline-block; font-size: 9px; background: var(--green-bg); color: var(--green-ok); padding: 1px 6px; border-radius: 20px; font-weight: bold; margin-top: 5px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+
+  .card { border: 1px solid var(--teal-light); border-radius: 4px; overflow: hidden; }
+  .card-full { border: 1px solid var(--teal-light); border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+
+  .card-head {
+    background: var(--teal);
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 6px 10px;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+
+  .row-alt {
+    padding: 7px 10px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--teal-light);
+  }
+  .row-alt:nth-child(odd)  { background: var(--white); }
+  .row-alt:nth-child(even) { background: var(--teal-pale); }
+  .row-alt:last-child { border-bottom: none; }
+
+  .time-label    { width: 100px; color: var(--text-mid); flex-shrink: 0; font-size: 10px; }
+  .time-track    { flex: 1; height: 7px; background: var(--teal-light); border-radius: 3px; position: relative; overflow: hidden; }
+  .time-crit     { position: absolute; left: 0; top: 0; height: 100%; background: var(--teal-light); border-radius: 3px; }
+  .time-real     { position: absolute; left: 0; top: 0; height: 100%; background: var(--teal); border-radius: 3px; }
+  .time-val      { width: 38px; text-align: right; font-size: 10px; font-weight: bold; color: var(--teal-dark); flex-shrink: 0; }
+  .time-crit-lbl { width: 34px; text-align: right; font-size: 9px; color: var(--text-soft); flex-shrink: 0; }
+
+  .check-circle { width: 16px; height: 16px; background: var(--green-ok); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .check-circle svg { width: 9px; height: 9px; }
+  .task-name { flex: 1; color: var(--text); }
+  .task-res  { font-size: 10px; font-weight: bold; color: var(--green-ok); width: 28px; text-align: right; }
+
+  .words-wrap { display: flex; flex-wrap: wrap; gap: 5px; padding: 10px; }
+  .word-tag { font-size: 10px; padding: 3px 9px; border-radius: 3px; border: 1px solid; }
+  .word-big { background: var(--teal); color: #fff; border-color: var(--teal-dark); font-weight: bold; }
+  .word-med { background: var(--teal-pale); color: var(--teal-dark); border-color: var(--teal-light); }
+
+  .clarity-track { flex: 1; height: 6px; background: var(--teal-light); border-radius: 3px; overflow: hidden; }
+  .clarity-fill  { height: 100%; background: var(--teal); border-radius: 3px; }
+  .clarity-dur   { width: 38px; text-align: right; font-size: 10px; font-weight: bold; color: var(--teal-dark); flex-shrink: 0; }
+  .clarity-clics { width: 46px; text-align: right; font-size: 9px; color: var(--text-soft); flex-shrink: 0; }
+  .session-id    { width: 22px; font-size: 9px; color: var(--text-soft); flex-shrink: 0; }
+
+  .crit-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .crit-table thead tr { background: var(--teal); color: #fff; }
+  .crit-table thead th { padding: 6px 10px; text-align: left; font-weight: bold; font-size: 10px; }
+  .crit-table tbody tr:nth-child(odd)  { background: var(--white); }
+  .crit-table tbody tr:nth-child(even) { background: var(--teal-pale); }
+  .crit-table td { padding: 6px 10px; border-bottom: 1px solid var(--teal-light); vertical-align: middle; }
+  .crit-table tr:last-child td { border-bottom: none; }
+  .ok-badge    { display: inline-block; background: var(--green-bg); color: var(--green-ok); font-size: 9px; font-weight: bold; padding: 1px 7px; border-radius: 3px; }
+  .result-bold { font-weight: bold; color: var(--teal-dark); }
+
+  .note {
+    font-size: 9px;
+    color: var(--text-soft);
+    margin-top: 1rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--teal-light);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+<div class="dash">
+
+  <div class="dash-header">
+    <h1>Resultados del testeo de usabilidad</h1>
+    <p>La Dicha Marbana · Mayo 2026</p>
+  </div>
+  <div class="dash-sub">7 participantes · Mobile first · Think aloud · Datos cruzados con Microsoft Clarity</div>
+
+  <!-- KPIs -->
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-num">7/7</div>
+      <div class="kpi-label">Tareas completadas sin ayuda</div>
+      <div class="kpi-badge">100%</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-num">4,71</div>
+      <div class="kpi-label">Facilidad de uso (P5, sobre 5)</div>
+      <div class="kpi-badge">↑ criterio 4/5</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-num">5/5</div>
+      <div class="kpi-label">Autonomía media (P3)</div>
+      <div class="kpi-badge">máximo posible</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-num">7/7</div>
+      <div class="kpi-label">Usarían la web antes que WA</div>
+      <div class="kpi-badge">objetivo cumplido</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <!-- Tiempos -->
+    <div class="card">
+      <div class="card-head">Tiempos de búsqueda (media vs. criterio)</div>
+      <div>
+        <div style="display:flex;justify-content:flex-end;gap:12px;padding:5px 10px 2px;font-size:9px;color:var(--text-soft);">
+          <span style="display:flex;align-items:center;gap:3px;"><span style="display:inline-block;width:8px;height:4px;background:var(--teal);border-radius:2px;"></span>Real</span>
+          <span style="display:flex;align-items:center;gap:3px;"><span style="display:inline-block;width:8px;height:4px;background:var(--teal-light);border-radius:2px;"></span>Criterio</span>
+        </div>
+        <div class="row-alt">
+          <span class="time-label">T1 · Productos</span>
+          <div class="time-track"><div class="time-crit" style="width:100%;"></div><div class="time-real" style="width:6.7%;"></div></div>
+          <span class="time-val">4,0s</span>
+          <span class="time-crit-lbl">/ 60s</span>
+        </div>
+        <div class="row-alt">
+          <span class="time-label">T2 · Fecha reparto</span>
+          <div class="time-track"><div class="time-crit" style="width:100%;"></div><div class="time-real" style="width:17.7%;"></div></div>
+          <span class="time-val">5,3s</span>
+          <span class="time-crit-lbl">/ 30s</span>
+        </div>
+        <div class="row-alt">
+          <span class="time-label">T4 · Conservación</span>
+          <div class="time-track"><div class="time-crit" style="width:100%;"></div><div class="time-real" style="width:36.2%;"></div></div>
+          <span class="time-val">21,7s</span>
+          <span class="time-crit-lbl">/ 60s</span>
+        </div>
+        <div style="padding:5px 10px;font-size:9px;color:var(--text-soft);background:var(--teal-pale);">
+          Todos los tiempos reales superan ampliamente el criterio definido.
+        </div>
+      </div>
+    </div>
+
+    <!-- Tareas -->
+    <div class="card">
+      <div class="card-head">Tareas completadas (sin ayuda en todos los casos)</div>
+      <div>
+        <div class="row-alt">
+          <div class="check-circle"><svg viewBox="0 0 9 9" fill="none"><polyline points="1.5,4.5 3.5,7 7.5,2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="task-name">T1 · Productos y precios</span>
+          <span class="task-res">7/7</span>
+        </div>
+        <div class="row-alt">
+          <div class="check-circle"><svg viewBox="0 0 9 9" fill="none"><polyline points="1.5,4.5 3.5,7 7.5,2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="task-name">T2 · Fecha de reparto</span>
+          <span class="task-res">7/7</span>
+        </div>
+        <div class="row-alt">
+          <div class="check-circle"><svg viewBox="0 0 9 9" fill="none"><polyline points="1.5,4.5 3.5,7 7.5,2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="task-name">T3 · Completar reserva</span>
+          <span class="task-res">7/7</span>
+        </div>
+        <div class="row-alt">
+          <div class="check-circle"><svg viewBox="0 0 9 9" fill="none"><polyline points="1.5,4.5 3.5,7 7.5,2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="task-name">T4 · Conservación del queso</span>
+          <span class="task-res">7/7</span>
+        </div>
+        <div class="row-alt">
+          <div class="check-circle"><svg viewBox="0 0 9 9" fill="none"><polyline points="1.5,4.5 3.5,7 7.5,2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="task-name">T5 · Contactar con Teresa</span>
+          <span class="task-res">7/7</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <!-- Palabras -->
+    <div class="card">
+      <div class="card-head">¿Cómo describirías esta web? (P8 · 3 palabras por participante)</div>
+      <div>
+        <div class="words-wrap">
+          <span class="word-tag word-big">Sencilla 5/7</span>
+          <span class="word-tag word-big">Cercana 2/7</span>
+          <span class="word-tag word-med">Intuitiva</span>
+          <span class="word-tag word-med">Completa</span>
+          <span class="word-tag word-med">Efectiva</span>
+          <span class="word-tag word-med">Bonita</span>
+          <span class="word-tag word-med">Práctica</span>
+          <span class="word-tag word-med">Amigable</span>
+          <span class="word-tag word-med">Visual</span>
+          <span class="word-tag word-med">Cómoda</span>
+          <span class="word-tag word-med">Manejable</span>
+          <span class="word-tag word-med">Precisa</span>
+        </div>
+        <div style="padding:5px 10px;font-size:9px;color:var(--text-soft);background:var(--teal-pale);border-top:1px solid var(--teal-light);">
+          Ningún participante usó términos asociados a frialdad o impersonalidad.
+        </div>
+      </div>
+    </div>
+
+    <!-- Clarity -->
+    <div class="card">
+      <div class="card-head">Duración de sesiones · Microsoft Clarity (13/05/2026)</div>
+      <div>
+        <div style="display:flex;justify-content:flex-end;gap:10px;padding:4px 10px 2px;font-size:9px;color:var(--text-soft);">
+          <span>Duración</span><span>Clics</span>
+        </div>
+        <div class="row-alt"><span class="session-id">S1</span><div class="clarity-track"><div class="clarity-fill" style="width:100%;"></div></div><span class="clarity-dur">40:20</span><span class="clarity-clics">5 clics</span></div>
+        <div class="row-alt"><span class="session-id">S2</span><div class="clarity-track"><div class="clarity-fill" style="width:62%;"></div></div><span class="clarity-dur">25:03</span><span class="clarity-clics">5 clics</span></div>
+        <div class="row-alt"><span class="session-id">S3</span><div class="clarity-track"><div class="clarity-fill" style="width:21%;"></div></div><span class="clarity-dur">08:49</span><span class="clarity-clics">4 clics</span></div>
+        <div class="row-alt"><span class="session-id">S4</span><div class="clarity-track"><div class="clarity-fill" style="width:17%;"></div></div><span class="clarity-dur">07:01</span><span class="clarity-clics">14 clics</span></div>
+        <div class="row-alt"><span class="session-id">S5</span><div class="clarity-track"><div class="clarity-fill" style="width:16%;"></div></div><span class="clarity-dur">06:39</span><span class="clarity-clics">0 clics</span></div>
+        <div class="row-alt"><span class="session-id">S6</span><div class="clarity-track"><div class="clarity-fill" style="width:16%;"></div></div><span class="clarity-dur">06:37</span><span class="clarity-clics">0 clics</span></div>
+        <div class="row-alt"><span class="session-id">S7</span><div class="clarity-track"><div class="clarity-fill" style="width:16%;"></div></div><span class="clarity-dur">06:26</span><span class="clarity-clics">10 clics</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Criterios -->
+  <div class="card-full">
+    <div class="card-head">Síntesis de criterios de éxito</div>
+    <table class="crit-table">
+      <thead>
+        <tr>
+          <th style="width:55%;">Criterio</th>
+          <th style="width:20%;">Resultado</th>
+          <th style="width:25%;">¿Se cumple?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Al menos 5/7 completan T1 sin ayuda</td><td class="result-bold">7/7</td><td><span class="ok-badge">✓ Sí</span></td></tr>
+        <tr><td>Media T1 inferior a 60 segundos</td><td class="result-bold">4,0 seg</td><td><span class="ok-badge">✓ Sí</span></td></tr>
+        <tr><td>Al menos 5/7 completan T2 sin ayuda</td><td class="result-bold">7/7</td><td><span class="ok-badge">✓ Sí</span></td></tr>
+        <tr><td>Media T2 inferior a 30 segundos</td><td class="result-bold">5,3 seg</td><td><span class="ok-badge">✓ Sí</span></td></tr>
+        <tr><td>Al menos 5/7 completan T3 sin ayuda</td><td class="result-bold">7/7</td><td><span class="ok-badge">✓ Sí</span></td></tr>
+        <tr><td>Media autonomía P3 ≥ 4/5</td><td class="result-bold">5/5</td><td><span class="ok-badge">✓ Sí</span></td></tr>
+        <tr><td>Media facilidad P5 ≥ 4/5</td><td class="result-bold">4,71/5</td><td><span class="ok-badge">✓ Sí</span></td></tr>
+        <tr><td>Mayoría usa palabras como "sencilla" o "cercana"</td><td class="result-bold">Sencilla 5/7 · Cercana 2/7</td><td><span class="ok-badge">✓ Sí</span></td></tr>
+        <tr><td>Nadie describe la web como fría o genérica</td><td class="result-bold">0/7</td><td><span class="ok-badge">✓ Sí</span></td></tr>
+        <tr><td>Al menos 5/7 la perciben coherente con la marca</td><td class="result-bold">7/7</td><td><span class="ok-badge">✓ Sí</span></td></tr>
+        <tr><td>Al menos 5/7 usarían la web antes que WhatsApp</td><td class="result-bold">7/7</td><td><span class="ok-badge">✓ Sí</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note">
+    Datos del testeo: 7 participantes, edades 38–63 años, dispositivo propio (móvil), formato presencial con think aloud (Lewis, 1982). Sesiones registradas el 13/05/2026 mediante Microsoft Clarity (ID: wpls03ayfl). Las sesiones de Clarity se identificaron tomando las 7 de mayor duración entre las sesiones con más de 20 segundos registradas ese día.
+  </p>
+
+</div>
+</body>
+</html>
